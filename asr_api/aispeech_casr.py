@@ -42,10 +42,13 @@ PARAMS = {
             "wakeupWord": "你好, 小驰", # 唤醒词
             "enableRealTimeFeedback": True,
             "enableVAD": True,
+            "enableTone": False,
             "enablePunctuation": True,
-            
-            
-            "lmId": "custom-lm-id", # 可选
+            "enableNumberConvert": True,
+            "enableConfidence": True,
+            "enableSNTime": True,
+            "enableEmotion": True,
+            "lmId": "", # 可选
             "lmList": ["lm-id","lm-id2"], # 可选
             "phraseHints": [{"type": "vocab", "name": "词库名", "data":["短语1", "短语2"]}] # 热词, 可选, 必须与lmId同时使用, 目前仅支持vocab类型
         }
@@ -165,7 +168,9 @@ if __name__ == "__main__":
     
     pid, key = get_login()
     PARAMS['context']['productId'] = pid
-    set_url(productId=pid, apikey=key, res=args.res)
+    set_url(productId=pid, apikey=key)
+    if args.res:
+        set_url(res=args.res)
     audio = args.audio
     url = URL.geturl()
     logger.info(f'URL:{url}')
