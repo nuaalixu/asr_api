@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 
 import asyncio
-from base64 import encode
-from ctypes.wintypes import LGRPID
-from email.mime import audio
-from itertools import product
-from typing import Dict
 import websockets
 import json
 import argparse
@@ -149,10 +144,13 @@ async def get(websocket):
             logger.info(f"{response.get('data')}")
         elif errno == 9:
             logger.info(f"{response.get('data')}")
+            return
         elif errno == 10:
             logger.error(f"Data format error.")
+            return
         else:
             logger.error(f"{response}\nService exception.")
+            return
 
 
 async def test(audio, url):
