@@ -34,7 +34,6 @@ PARAMS = {
     "use_stream_sp": 0,  # 流式标点,（默认为0），为1时，返回识别结果回退的长度:back_pos
     "use_alignment": 0,  # 输出词级别时间对齐信息
     "use_nn_emotion": 1,  # 情绪识别
-    "use_wp_in_rec": 0,  # 为1时（默认为0）会在rec中返回带顺滑标记的结果出来(内部使用)
     "use_confidence":0,  # 句级别置信度（默认为0），为1时会在rec中返回 ”conf"，浮点
     "use_word_confi":0,  # 词级别置信度（默认为0），为1时,返回"alignment"下的"conf"表示词级别的置信度。
     "use_volume_detection":1  # （默认为0），为1时，返回分贝数
