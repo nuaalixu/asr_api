@@ -23,7 +23,7 @@ QUERY = {
     "product_source": "dui"  # Optional, 渠道分类，默认dui
 }
 ```
-### 切换ASR
+### 切换ASR配置
 修改`PARAMS`字典里对应字段的值。
 ```
 PARAMS = {
