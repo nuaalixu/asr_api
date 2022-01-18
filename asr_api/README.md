@@ -1,10 +1,15 @@
 # ASR云端服务调用工具
 ## AISpeech实时长语音转写
 ### 使用方式
-第一次使用时需要输入productId和apikey。
+需要安装websockets包。
+```
+pip install websockets
+```
+直接上传音频，开始实时转写。
 ```
 aispeech_lasr_online.py test.wav
 ```
+注意：第一次使用时需要按照提示，输入productId和apikey。
 ### 切换语种
 修改工具里，`QUERY`字典的lang字段。
 ```
