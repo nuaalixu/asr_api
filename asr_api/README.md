@@ -5,9 +5,14 @@
 ```
 pip install websockets
 ```
-直接上传音频，开始实时转写。
+指定音频的scp列表文件和输出文件
 ```
-aispeech_lasr_online.py test.wav
+aispeech_lasr_online.py wav.scp results.txt
+```
+其中scp列表文件由key和音频地址组成。
+```
+test-1 /home/test1.wav
+test-2 /home/test2.wav
 ```
 注意：第一次使用时需要按照提示，输入productId和apikey。
 ### 切换语种
