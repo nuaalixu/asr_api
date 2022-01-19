@@ -154,10 +154,10 @@ async def get(websocket):
             return data
         elif errno == 10:
             logger.error(f"Data format error.")
-            return
+            raise
         else:
             logger.error(f"{response}\nService exception.")
-            return
+            raise
 
 
 async def request(audio, url):
