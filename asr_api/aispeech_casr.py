@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 
 import asyncio
-from email.mime import audio
 import websockets
 import json
 import argparse
 import logging
 import os.path as path
 import urllib.parse as urlparse
+import concurrent
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+MAX_WORKER = 10
 LOGIN = "secret"
 URL = urlparse.urlparse("wss://asr.dui.ai/runtime/v2/recognize")
 
@@ -127,22 +129,26 @@ async def feed(audio, websocket, stride=0.04, size=1280):
 
 async def get(websocket):
     """Fetch and display ASR transciption."""
+    data = []
     while True:
         response = await websocket.recv()
         response= json.loads(response)
         errno = response.get('eof')
         if errno == 0:
             logger.info(f"{response.get('result')}")  # for extension
+            if response.get('result').get('rec', None) is not None:
+                data.append(response.get('result').get('rec'))
         elif errno == 1:
             logger.info(f"{response.get('result')}")
-            return
+            data.append(response.get('result').get('rec'))
+            return data
         else:
             logger.error(f"{response}\nService exception.")
-            return
+            raise
 
 
-async def test(audio, url):
-    """Entry of asr test.
+async def request(audio, url):
+    """Entry of a request of ASR.
 
     Args:
         audio (str): audio file path.
@@ -154,15 +160,30 @@ async def test(audio, url):
         task2 = asyncio.create_task(get(websocket))
 
         await task1   
-        await task2
+        data = await task2
 
-        logger.info(f"End.")
+        return "".join(data)
+
+
+def run(record):
+    """ A running thread for ASR.
+
+    Args:
+        record (str): a record which consist of key and value.
+
+    Returns:
+        str: ASR transcription.
+    """
+    url = URL.geturl()
+    key, audio = record.rstrip().split(maxsplit=1)
+    result = asyncio.run(request(audio, url))
+    return f'{key}\t{result}\n'
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("audio", type=str, help="Input audio file.")
+    parser.add_argument("in_scp", type=str, help="Input scp file which consisit of key and value.")
+    parser.add_argument("out_trans", type=str, help="Output asr transcription.")
     parser.add_argument("--res", type=str, help="Select asr resource. Defaults to aiuniversal.")
     args = parser.parse_args()
     
@@ -171,7 +192,21 @@ if __name__ == "__main__":
     set_url(productId=pid, apikey=key)
     if args.res:
         set_url(res=args.res)
-    audio = args.audio
+    
+    in_scp = args.in_scp
+    out_trans = args.out_trans
     url = URL.geturl()
     logger.info(f'URL:{url}')
-    asyncio.run(test(audio, url))
+    
+    try:
+        audio_list_fd = open(in_scp, 'r', encoding='utf8')
+        trans_file_fd = open(out_trans, 'w', encoding='utf8')
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER)
+        tasks = [executor.submit(run, record) for record in audio_list_fd]
+        for future in concurrent.futures.as_completed(tasks):
+            data = future.result()
+            trans_file_fd.write(data)
+            trans_file_fd.flush()
+    finally:
+        audio_list_fd.close()
+        trans_file_fd.close()
