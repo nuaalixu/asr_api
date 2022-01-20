@@ -13,6 +13,7 @@ import concurrent
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+
 MAX_WORKER = 10
 LOGIN = "secret"
 URL = urlparse.urlparse("wss://asr.dui.ai/runtime/v2/recognize")
@@ -26,7 +27,7 @@ QUERY = {
 
 PARAMS = {
     "context": {
-        "productId": "", # 必选
+        "productId": "", # 客户编号，唯一
         "userId": "SERddeeeeeeee",    # 可选
         "deviceName": "EVICEdde",  # 可选, 同Device Name授权服务里的deviceName
         "sdkName": "dui-asr-android-sdk-6.1" # 可选
@@ -57,8 +58,9 @@ PARAMS = {
     }
 }
 
+
 def get_login():
-    """Get and store pid*apikey.
+    """Get and store pid&apikey.
     """
     if path.exists(LOGIN) and path.getsize(LOGIN) != 0:
         with open(LOGIN, 'r', encoding='utf8') as f:

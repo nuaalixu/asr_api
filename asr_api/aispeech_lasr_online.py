@@ -61,8 +61,9 @@ PARAMS = {
     ]
 }
 
+
 def get_login():
-    """Get and store pid*apikey.
+    """Get and store pid&apikey.
     """
     if path.exists(LOGIN) and path.getsize(LOGIN) != 0:
         with open(LOGIN, 'r', encoding='utf8') as f:
@@ -228,5 +229,3 @@ if __name__ == "__main__":
     finally:
         audio_list_fd.close()
         trans_file_fd.close()
-    
-
