@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from socket import AI_PASSIVE
-from unittest import result
 import uuid
 import os
 import sys
@@ -10,7 +8,6 @@ import json
 import argparse
 import logging
 import time
-from multiprocessing import Pool
 import concurrent.futures
 from os import path
 

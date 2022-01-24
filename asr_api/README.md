@@ -129,3 +129,19 @@ PARAMS = {
     }
 }
 ```
+## AISpeech录音文件撰写
+### 使用方式
+需要安装requests包。
+```
+pip install requests
+```
+指定音频的scp列表文件和输出文件
+```
+aispeech_lasr_offline.py wav.scp results.txt
+```
+其中scp列表文件由key和音频地址组成。
+```
+test-1 /home/test1.wav
+test-2 /home/test2.wav
+```
+注意：第一次使用时需要按照提示，输入productId和apikey。
