@@ -145,3 +145,5 @@ test-1 /home/test1.wav
 test-2 /home/test2.wav
 ```
 注意：第一次使用时需要按照提示，输入productId和apikey。
+### 切换语种
+修改脚本里，全局变量`LANG`的值。
