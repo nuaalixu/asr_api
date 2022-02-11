@@ -129,7 +129,7 @@ PARAMS = {
     }
 }
 ```
-## AISpeech录音文件撰写
+## AISpeech录音文件转写
 ### 使用方式
 需要安装requests包。
 ```
