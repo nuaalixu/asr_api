@@ -182,6 +182,7 @@ def run(record):
         result = asyncio.run(request(audio, url))
     except:
         logging.exception(f'Task {key} failed.')
+        return None
     else:
         return f'{key}\t{result}\n'
 
@@ -210,9 +211,9 @@ if __name__ == "__main__":
         executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER)
         tasks = [executor.submit(run, record) for record in audio_list_fd]
         for future in concurrent.futures.as_completed(tasks):
-            data = future.result()
-            trans_file_fd.write(data)
-            trans_file_fd.flush()
+            if data := future.result()
+                trans_file_fd.write(data)
+                trans_file_fd.flush()
     finally:
         audio_list_fd.close()
         trans_file_fd.close()
