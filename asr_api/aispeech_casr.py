@@ -43,15 +43,15 @@ PARAMS = {
         },
         "asr": {
             "wakeupWord": "你好, 小驰", # 唤醒词
-            "enableRealTimeFeedback": True,
+            "enableRealTimeFeedback": False,
             "enableVAD": True,
             "enableTone": False,
-            "enablePunctuation": True,
-            "enableNumberConvert": True,
+            "enablePunctuation": False,
+            "enableNumberConvert": False,
             "enableConfidence": True,
             "enableSNTime": True,
             "enableEmotion": True,
-            "lmId": "", # 可选
+            "lmId": "aisichuan-mix_gwm_20220329_v01_rs2", # 可选
             "lmList": ["lm-id","lm-id2"], # 可选
             "phraseHints": [{"type": "vocab", "name": "词库名", "data":["短语1", "短语2"]}] # 热词, 可选, 必须与lmId同时使用, 目前仅支持vocab类型
         }
@@ -178,8 +178,12 @@ def run(record):
     """
     url = URL.geturl()
     key, audio = record.rstrip().split(maxsplit=1)
-    result = asyncio.run(request(audio, url))
-    return f'{key}\t{result}\n'
+    try:
+        result = asyncio.run(request(audio, url))
+    except:
+        logging.exception(f'Task {key} failed.')
+    else:
+        return f'{key}\t{result}\n'
 
 
 if __name__ == "__main__":
