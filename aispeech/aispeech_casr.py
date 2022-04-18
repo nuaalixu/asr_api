@@ -211,7 +211,7 @@ if __name__ == "__main__":
         executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER)
         tasks = [executor.submit(run, record) for record in audio_list_fd]
         for future in concurrent.futures.as_completed(tasks):
-            if data := future.result()
+            if data := future.result():
                 trans_file_fd.write(data)
                 trans_file_fd.flush()
     finally:
