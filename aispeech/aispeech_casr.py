@@ -205,9 +205,9 @@ if __name__ == "__main__":
     url = URL.geturl()
     logger.info(f'URL:{url}')
     
+    audio_list_fd = open(in_scp, 'r', encoding='utf8')
+    trans_file_fd = open(out_trans, 'w', encoding='utf8')
     try:
-        audio_list_fd = open(in_scp, 'r', encoding='utf8')
-        trans_file_fd = open(out_trans, 'w', encoding='utf8')
         executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER)
         tasks = [executor.submit(run, record) for record in audio_list_fd]
         for future in concurrent.futures.as_completed(tasks):

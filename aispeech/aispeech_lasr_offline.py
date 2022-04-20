@@ -239,9 +239,10 @@ if __name__ == '__main__':
     pid, key = get_login()
     PRODUCT_ID = pid
     API_KEY = key
+    
+    audio_list_fd = open(in_scp, 'r', encoding='utf8')
+    trans_file_fd = open(out_trans, 'w', encoding='utf8')
     try:
-        audio_list_fd = open(in_scp, 'r', encoding='utf8')
-        trans_file_fd = open(out_trans, 'w', encoding='utf8')
         empty_tmp_folder()
         executor = concurrent.futures.ThreadPoolExecutor(max_workers=nproc)
         tasks = [executor.submit(run, record) for record in audio_list_fd]
