@@ -33,71 +33,45 @@ test-2 /home/test2.wav
 ```
 pip install websockets
 ```
-指定音频的scp列表文件和输出文件
+编辑配置文件，填写有效的productId和apikey。
+指定配置文件、音频的scp列表文件和输出文件。
 ```
-aispeech_casr.py wav.scp results.txt
+aispeech_casr.py -c casr.yaml wav.scp results.txt
 ```
 其中scp列表文件由key和音频地址组成。
 ```
 test-1 /home/test1.wav
 test-2 /home/test2.wav
 ```
-注意：第一次使用时需要按照提示，输入productId和apikey。
 ### 切换场景
-修改脚本里`QUERY`字典的res字段。
+修改配置文件中的`res`字段。
 ```
-QUERY = {
-    "productId": "",  # 客户编号，唯一
-    "apikey": "",  # apikey
-    "res": "aiuniversal",  # 一路模型资源名称，区分大小写，需要和资源名称完全一致
-    "lang": "zh-CN",  # Optional, 不传此参数时默认使用中文
-}
-```
-或者调用时传参。
-```
-aispeech_casr.py --res aicar wav.scp results.txt
-```
-### 切换ASR配置
-修改`PARAMS`字典里对应字段的值。
-```
-PARAMS = {
-    "context": {
-        "productId": "", # 必选
-        "userId": "SERddeeeeeeee",    # 可选
-        "deviceName": "EVICEdde",  # 可选, 同Device Name授权服务里的deviceName
-        "sdkName": "dui-asr-android-sdk-6.1" # 可选
-    },
-    "request": {
-        "requestId": "request-id-in-uuid", # 可选, 如果不存在则服务端会生成一个, 统一换成requestId
-        "audio": {
-            "audioType": "wav", # 必选，建议压缩，格式上支持ogg, wav,mp3,amr等
-            "sampleRate": 16000, # 必选
-            "channel": 1, # 必选
-            "sampleBytes": 2, # 必选
-            "url": "" # 可选, 服务端会自动下载此url的音频用作识别
-        },
-        "asr": {
-            "wakeupWord": "你好, 小驰", # 唤醒词
-            "enableRealTimeFeedback": True,
-            "enableVAD": True,
-            "enableTone": False,
-            "enablePunctuation": True,
-            "enableNumberConvert": True,
-            "enableConfidence": True,
-            "enableSNTime": True,
-            "enableEmotion": True,
-            "lmId": "", # 可选
-            "lmList": ["lm-id","lm-id2"], # 可选
-            "phraseHints": [{"type": "vocab", "name": "词库名", "data":["短语1", "短语2"]}] # 热词, 可选, 必须与lmId同时使用, 目前仅支持vocab类型
-        }
-    }
-}
+query:
+  productId: ''  # 必填，客户编号，唯一
+  apikey: ''  # 必填，apikey
+  res: aiuniversal  # 一路模型资源名称，区分大小写，需要和资源名称完全一致
+  lang: zh-CN
+...
 ```
 ## 录音文件转写
 ### 使用方式
 需要安装requests包。
 ```
 pip install requests
+```
+修改脚本中的配置项，必须填写pid和apikey，识别功能可自行选择。
+```
+PRODUCT_ID  = '' # 必填
+API_KEY     = '' # 必填
+
+SAMPLE_RATE = 16000  # 采样率
+USE_TXT_SMOOTH = 0  # 顺滑开关
+USE_INVERSE_TXT = 0  # 逆文本开关 
+SPEAK_NUMBER = 0  # 说话人，-1代表盲分
+USE_SEGMENT = 0  # 是否按分词输出
+USE_AUX = 0 # 是否开启情绪
+LANG= 'cn' # 语种
+LM_ID='' # 二路语言模型ID
 ```
 指定音频的scp列表文件和输出文件
 ```
@@ -108,6 +82,5 @@ aispeech_lasr_offline.py wav.scp results.txt
 test-1 /home/test1.wav
 test-2 /home/test2.wav
 ```
-注意：第一次使用时需要按照提示，输入productId和apikey。
 ### 切换语种
 修改脚本里，全局变量`LANG`的值。
