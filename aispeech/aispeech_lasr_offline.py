@@ -33,7 +33,9 @@ TMP_FOLDER  = ".slices"
 def get_login():
     """Get and store pid&apikey.
     """
-    if path.exists(LOGIN) and path.getsize(LOGIN) != 0:
+    if PRODUCT_ID and API_KEY:
+        return PRODUCT_ID, API_KEY
+    elif path.exists(LOGIN) and path.getsize(LOGIN) != 0:
         with open(LOGIN, 'r', encoding='utf8') as f:
             pid = f.readline().rstrip()
             key = f.readline().rstrip()
