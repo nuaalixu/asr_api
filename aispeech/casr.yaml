@@ -1,0 +1,40 @@
+---
+query:
+  productId: ''  # 必填，客户编号，唯一
+  apikey: ''  # 必填，apikey
+  res: aiuniversal  # 一路模型资源名称，区分大小写，需要和资源名称完全一致
+  lang: zh-CN
+msg:
+  context:
+    productId: ''  # 必填，客户编号，唯一，与前文保持一致
+    userId: SERddeeeeeeee  # 可选
+    deviceName: EVICEdde  # 可选, 同Device Name授权服务里的deviceName
+    sdkName: dui-asr-android-sdk-6.1  # 可选
+  request:
+    requestId:  # 可选, 如果不存在则服务端会生成一个, 统一换成requestId
+    audio:
+      audioType: wav  # 必选，建议压缩，格式上支持ogg, wav,mp3,amr等
+      sampleRate: 16000  # 必选
+      channel: 1
+      sampleBytes: 2
+      url: ''
+    asr:
+      wakeupWord: 你好, 小驰 # 唤醒词
+      enableRealTimeFeedback: true
+      enableVAD: true
+      enableTone: false
+      enablePunctuation: false
+      enableNumberConvert: false
+      enableConfidence: true
+      enableSNTime: true
+      enableEmotion: true
+      lmId: default
+      lmList:
+      - lm-id
+      - lm-id2
+      phraseHints:
+      - type: vocab
+        name: 词库名
+        data:
+        - 短语1
+        - 短语2
