@@ -89,7 +89,7 @@ class ASRTask:
     async def naive_task(self):
         """Run a naive task.
         """
-        async with websockets.connect(url) as websocket:
+        async with websockets.connect(self.url) as websocket:
             await self._start(websocket)
             task1 = asyncio.create_task(self._feed(websocket))
             task2 = asyncio.create_task(self._get(websocket))
