@@ -87,9 +87,8 @@ class ASRTask:
                 logger.info(f"{response.get('data')}")
                 data.append(response.get('data').get('onebest'))
                 return data
-            elif errno == 10:
-                logger.error(f"Data format error.")
-                raise
+            elif errno == 6:
+                logger.info(f"{response.get('data')}")
             else:
                 logger.error(f"{response}\nService exception.")
                 raise

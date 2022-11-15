@@ -133,4 +133,4 @@ secret
 *.wav
 .vscode/
 .slices/
-test*.yaml
+test*
